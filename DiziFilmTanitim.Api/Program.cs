@@ -1,41 +1,57 @@
+using Microsoft.EntityFrameworkCore;
+using DiziFilmTanitim.Api.Data;
+using DiziFilmTanitim.Api.Services;
+using DiziFilmTanitim.Core.Interfaces;
+using DiziFilmTanitim.Api.Interfaces;
+using DiziFilmTanitim.Api.Endpoints;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Servislerin kaydedilmesi
+builder.Services.AddScoped<IFilmService, FilmService>();
+builder.Services.AddScoped<IDiziService, DiziService>();
+builder.Services.AddScoped<ITurService, TurService>();
+builder.Services.AddScoped<IKullaniciService, KullaniciService>();
+builder.Services.AddScoped<IYonetmenService, YonetmenService>();
+builder.Services.AddScoped<IOyuncuService, OyuncuService>();
+builder.Services.AddScoped<IKullaniciListesiService, KullaniciListesiService>();
+builder.Services.AddScoped<IUploadService, UploadService>();
+
+// JSON Serialization ayarları - Circular reference handling
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
+// Swagger/OpenAPI için servisleri ekle
+builder.Services.AddEndpointsApiExplorer(); // Minimal API'ler için gerekli
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+// Endpointlerin kaydedilmesi
+app.MapKullaniciEndpoints();
+app.MapFilmEndpoints();
+app.MapDiziEndpoints();
+app.MapTurEndpoints();
+app.MapYonetmenEndpoints();
+app.MapOyuncuEndpoints();
+app.MapKullaniciListesiEndpoints();
+app.MapUploadEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
