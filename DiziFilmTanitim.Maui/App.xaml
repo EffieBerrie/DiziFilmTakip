@@ -1,14 +1,205 @@
 ﻿<?xml version = "1.0" encoding = "UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:DiziFilmTanitim.Maui"
-             x:Class="DiziFilmTanitim.Maui.App">
-    <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Application.Resources>
+             xmlns:local="clr-namespace:DiziFilmTanitim.MAUI"
+             xmlns:converters="clr-namespace:DiziFilmTanitim.MAUI.Converters"
+             x:Class="DiziFilmTanitim.MAUI.App">
+        <Application.Resources>
+                <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="Resources/Styles/Colors.xaml"/>
+                                <ResourceDictionary Source="Resources/Styles/Styles.xaml"/>
+                        </ResourceDictionary.MergedDictionaries>
+
+                        <!-- Modern Turuncu Tema Renkleri -->
+                        <Color x:Key="Primary">#FF7043</Color>
+                        <Color x:Key="PrimaryDark">#E64A19</Color>
+                        <Color x:Key="PrimaryLight">#FFAB91</Color>
+                        <Color x:Key="Secondary">#FFA726</Color>
+                        <Color x:Key="Accent">#FF9800</Color>
+
+                        <Color x:Key="Background">#FAFAFA</Color>
+                        <Color x:Key="Surface">#FFFFFF</Color>
+                        <Color x:Key="Card">#FFFFFF</Color>
+
+                        <Color x:Key="TextPrimary">#212121</Color>
+                        <Color x:Key="TextSecondary">#757575</Color>
+                        <Color x:Key="TextHint">#9E9E9E</Color>
+
+                        <Color x:Key="Success">#4CAF50</Color>
+                        <Color x:Key="Warning">#FF9800</Color>
+                        <Color x:Key="Error">#F44336</Color>
+
+                        <!-- Gradyan Renkleri -->
+                        <LinearGradientBrush x:Key="PrimaryGradient"
+                                             StartPoint="0,0"
+                                             EndPoint="1,1">
+                                <GradientStop Color="#FF7043"
+                                              Offset="0"/>
+                                <GradientStop Color="#FFA726"
+                                              Offset="1"/>
+                        </LinearGradientBrush>
+
+                        <LinearGradientBrush x:Key="CardGradient"
+                                             StartPoint="0,0"
+                                             EndPoint="1,1">
+                                <GradientStop Color="#FFFFFF"
+                                              Offset="0"/>
+                                <GradientStop Color="#F5F5F5"
+                                              Offset="1"/>
+                        </LinearGradientBrush>
+
+                        <!-- Modern Button Stilleri -->
+                        <Style x:Key="PrimaryButton"
+                               TargetType="Button">
+                                <Setter Property="BackgroundColor"
+                                        Value="{StaticResource Primary}"/>
+                                <Setter Property="TextColor"
+                                        Value="White"/>
+                                <Setter Property="FontSize"
+                                        Value="16"/>
+                                <Setter Property="FontAttributes"
+                                        Value="Bold"/>
+                                <Setter Property="CornerRadius"
+                                        Value="25"/>
+                                <Setter Property="HeightRequest"
+                                        Value="50"/>
+                                <Setter Property="Shadow">
+                                        <Shadow Brush="{StaticResource Primary}"
+                                                Opacity="0.3"
+                                                Radius="10"
+                                                Offset="0,4"/>
+                                </Setter>
+                        </Style>
+
+                        <Style x:Key="SecondaryButton"
+                               TargetType="Button">
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent"/>
+                                <Setter Property="TextColor"
+                                        Value="{StaticResource Primary}"/>
+                                <Setter Property="FontSize"
+                                        Value="16"/>
+                                <Setter Property="BorderColor"
+                                        Value="{StaticResource Primary}"/>
+                                <Setter Property="BorderWidth"
+                                        Value="2"/>
+                                <Setter Property="CornerRadius"
+                                        Value="25"/>
+                                <Setter Property="HeightRequest"
+                                        Value="50"/>
+                        </Style>
+
+                        <!-- Modern Card Stili -->
+                        <Style x:Key="ModernCard"
+                               TargetType="Border">
+                                <Setter Property="BackgroundColor"
+                                        Value="{StaticResource Card}"/>
+                                <Setter Property="StrokeThickness"
+                                        Value="0"/>
+                                <Setter Property="StrokeShape"
+                                        Value="RoundRectangle 15"/>
+                                <Setter Property="Padding"
+                                        Value="20"/>
+                                <Setter Property="Shadow">
+                                        <Shadow Brush="Black"
+                                                Opacity="0.1"
+                                                Radius="20"
+                                                Offset="0,8"/>
+                                </Setter>
+                        </Style>
+
+                        <!-- Modern Entry Stili -->
+                        <Style x:Key="ModernEntry"
+                               TargetType="Border">
+                                <Setter Property="BackgroundColor"
+                                        Value="{StaticResource Surface}"/>
+                                <Setter Property="Stroke"
+                                        Value="{StaticResource PrimaryLight}"/>
+                                <Setter Property="StrokeThickness"
+                                        Value="2"/>
+                                <Setter Property="StrokeShape"
+                                        Value="RoundRectangle 12"/>
+                                <Setter Property="Padding"
+                                        Value="15"/>
+                                <Setter Property="Shadow">
+                                        <Shadow Brush="Black"
+                                                Opacity="0.05"
+                                                Radius="5"
+                                                Offset="0,2"/>
+                                </Setter>
+                        </Style>
+
+                        <!-- Entry Text Stili -->
+                        <Style x:Key="ModernEntryText"
+                               TargetType="Entry">
+                                <Setter Property="TextColor"
+                                        Value="{StaticResource TextPrimary}"/>
+                                <Setter Property="PlaceholderColor"
+                                        Value="{StaticResource TextHint}"/>
+                                <Setter Property="FontSize"
+                                        Value="16"/>
+                                <Setter Property="BackgroundColor"
+                                        Value="Transparent"/>
+                        </Style>
+
+                        <!-- Hata Mesajı Container -->
+                        <Style x:Key="ErrorMessageContainer"
+                               TargetType="Border">
+                                <Setter Property="BackgroundColor"
+                                        Value="#FFEBEE"/>
+                                <Setter Property="StrokeThickness"
+                                        Value="1"/>
+                                <Setter Property="Stroke"
+                                        Value="{StaticResource Error}"/>
+                                <Setter Property="StrokeShape"
+                                        Value="RoundRectangle 8"/>
+                                <Setter Property="Padding"
+                                        Value="12"/>
+                        </Style>
+
+                        <!-- Başarı Mesajı Container -->
+                        <Style x:Key="SuccessMessageContainer"
+                               TargetType="Border">
+                                <Setter Property="BackgroundColor"
+                                        Value="#E8F5E8"/>
+                                <Setter Property="StrokeThickness"
+                                        Value="1"/>
+                                <Setter Property="Stroke"
+                                        Value="{StaticResource Success}"/>
+                                <Setter Property="StrokeShape"
+                                        Value="RoundRectangle 8"/>
+                                <Setter Property="Padding"
+                                        Value="12"/>
+                        </Style>
+
+                        <!-- Hata Mesajı Text -->
+                        <Style x:Key="ErrorMessageText"
+                               TargetType="Label">
+                                <Setter Property="TextColor"
+                                        Value="{StaticResource Error}"/>
+                                <Setter Property="FontSize"
+                                        Value="14"/>
+                                <Setter Property="FontAttributes"
+                                        Value="Bold"/>
+                        </Style>
+
+                        <!-- Başarı Mesajı Text -->
+                        <Style x:Key="SuccessMessageText"
+                               TargetType="Label">
+                                <Setter Property="TextColor"
+                                        Value="{StaticResource Success}"/>
+                                <Setter Property="FontSize"
+                                        Value="14"/>
+                                <Setter Property="FontAttributes"
+                                        Value="Bold"/>
+                        </Style>
+
+                        <!-- Global Converters -->
+                        <converters:InverseBoolToChevronConverter x:Key="InverseBoolToChevronConverter"/>
+                        <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+                        <converters:StringNullOrEmptyBoolConverter x:Key="StringNullOrEmptyBoolConverter"/>
+
+                </ResourceDictionary>
+        </Application.Resources>
 </Application>

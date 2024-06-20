@@ -1,4 +1,4 @@
-﻿namespace DiziFilmTanitim.Maui;
+﻿namespace DiziFilmTanitim.MAUI;
 
 public partial class App : Application
 {
@@ -9,6 +9,7 @@ public partial class App : Application
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
+		// AppShell varsayılan olarak giriş sayfasını açacak
 		return new Window(new AppShell());
 	}
 }

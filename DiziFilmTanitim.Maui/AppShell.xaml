@@ -1,14 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="DiziFilmTanitim.Maui.AppShell"
+    x:Class="DiziFilmTanitim.MAUI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:DiziFilmTanitim.Maui"
-    Title="DiziFilmTanitim.Maui">
+    xmlns:views="clr-namespace:DiziFilmTanitim.MAUI.Views"
+    Title="Dizi Film Takip"
+    FlyoutBehavior="Disabled"
+    TabBarBackgroundColor="{StaticResource Surface}"
+    TabBarTitleColor="{StaticResource TextSecondary}"
+    TabBarUnselectedColor="{StaticResource TextHint}"
+    TabBarForegroundColor="{StaticResource Primary}">
 
+    <!-- Giriş Sayfası (Varsayılan) -->
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="Giriş"
+        ContentTemplate="{DataTemplate views:GirisSayfasi}"
+        Route="GirisSayfasi"
+        Shell.TabBarIsVisible="False"/>
+
+    <!-- Ana Uygulama Tab'ları -->
+    <TabBar Route="MainTabs"
+            Shell.TabBarIsVisible="True">
+        <ShellContent
+            Title="Ana Sayfa"
+            Icon="🏠"
+            ContentTemplate="{DataTemplate views:AnaSayfa}"
+            Route="AnaSayfa"/>
+
+        <ShellContent
+            Title="Filmler"
+            Icon="🎬"
+            ContentTemplate="{DataTemplate views:FilmlerSayfasi}"
+            Route="Filmler"/>
+
+        <ShellContent
+            Title="Diziler"
+            Icon="📺"
+            ContentTemplate="{DataTemplate views:DizilerSayfasi}"
+            Route="Diziler"/>
+
+        <ShellContent
+            Title="Arama"
+            Icon="🔍"
+            ContentTemplate="{DataTemplate views:AramaSayfasi}"
+            Route="Arama"/>
+
+        <ShellContent
+            Title="Listeler"
+            Icon="📝"
+            ContentTemplate="{DataTemplate views:ListelerSayfasi}"
+            Route="Listeler"/>
+
+        <ShellContent
+            Title="Profil"
+            Icon="👤"
+            ContentTemplate="{DataTemplate views:ProfilSayfasi}"
+            Route="Profil"/>
+    </TabBar>
 
 </Shell>

@@ -14,14 +14,14 @@
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<OutputType>Exe</OutputType>
-		<RootNamespace>DiziFilmTanitim.Maui</RootNamespace>
+		<RootNamespace>DiziFilmTanitim.MAUI</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>DiziFilmTanitim.Maui</ApplicationTitle>
+		<ApplicationTitle>DiziFilmTanitim.MAUI</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.dizifilmtanitim.maui</ApplicationId>
@@ -60,7 +60,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="12.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.70" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 	</ItemGroup>
 
