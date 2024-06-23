@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace DiziFilmTanitim.Maui;
+namespace DiziFilmTanitim.MAUI;
 
 public class Program
 {

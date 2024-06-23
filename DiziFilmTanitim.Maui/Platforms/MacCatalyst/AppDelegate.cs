@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace DiziFilmTanitim.Maui;
+namespace DiziFilmTanitim.MAUI;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

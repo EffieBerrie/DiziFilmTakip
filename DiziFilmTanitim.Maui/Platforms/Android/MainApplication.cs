@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace DiziFilmTanitim.Maui;
+namespace DiziFilmTanitim.MAUI;
 
 [Application]
 public class MainApplication : MauiApplication

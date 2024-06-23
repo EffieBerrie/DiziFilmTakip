@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace DiziFilmTanitim.Maui;
+namespace DiziFilmTanitim.MAUI;
 
 class Program : MauiApplication
 {
