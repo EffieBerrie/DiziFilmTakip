@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.DiziDetaySayfasi"
+             xmlns:viewModels="clr-namespace:DiziFilmTanitim.MAUI.ViewModels"
+             x:DataType="viewModels:DiziDetayViewModel"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+        <!-- Background -->
+        <Rectangle Fill="{StaticResource PrimaryGradient}"
+                   Opacity="0.05"/>
+
+        <ScrollView Padding="20">
+            <VerticalStackLayout Spacing="25">
+
+                <!-- Loading -->
+                <VerticalStackLayout IsVisible="{Binding IsBusy}"
+                                     VerticalOptions="Center"
+                                     Spacing="20">
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"
+                                       WidthRequest="40"
+                                       HeightRequest="40"/>
+                    <Label Text="Dizi detayları yükleniyor..."
+                           FontSize="16"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <!-- Dizi Detay Content -->
+                <VerticalStackLayout IsVisible="{Binding VeriYuklendi}"
+                                     Spacing="25">
+
+                    <!-- Dizi Header -->
+                    <Border Style="{StaticResource ModernCard}">
+                        <Grid ColumnDefinitions="120,*"
+                              ColumnSpacing="20"
+                              Padding="10">
+                            <Border Grid.Column="0"
+                                    BackgroundColor="{StaticResource PrimaryLight}"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 10"
+                                    WidthRequest="110"
+                                    HeightRequest="160">
+                                <Image Aspect="AspectFill"
+                                       Source="{Binding Dizi.AfisUrl}"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Spacing="8"
+                                                 VerticalOptions="Center">
+                                <Label Text="{Binding Dizi.Ad}"
+                                       FontSize="22"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Primary}"
+                                       LineBreakMode="WordWrap"/>
+                                <HorizontalStackLayout Spacing="15">
+                                    <HorizontalStackLayout Spacing="5">
+                                        <Label Text="📅"
+                                               FontSize="14"/>
+                                        <Label Text="{Binding Dizi.YapimYiliText}"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="5">
+                                        <Label Text="📺"
+                                               FontSize="14"/>
+                                        <Label Text="{Binding Dizi.Durum}"
+                                               FontSize="15"
+                                               TextColor="{StaticResource TextSecondary}"/>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="5">
+                                    <Label Text="🎭 Yönetmen:"
+                                           FontSize="13"
+                                           TextColor="{StaticResource TextHint}"/>
+                                    <Label Text="{Binding Dizi.YonetmenAdi}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource TextPrimary}"
+                                           LineBreakMode="WordWrap"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- Türler -->
+                    <Border Style="{StaticResource ModernCard}">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="🏷️ Türler"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Label Text="{Binding Dizi.TurlerText}"
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   LineBreakMode="WordWrap"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Oyuncular -->
+                    <Border Style="{StaticResource ModernCard}">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="🎭 Oyuncular"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Label Text="{Binding Dizi.OyuncularText}"
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   LineBreakMode="WordWrap"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Özet -->
+                    <Border Style="{StaticResource ModernCard}"
+                            IsVisible="{Binding Dizi.OzetVarMi}">
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="📝 Özet"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Label Text="{Binding Dizi.Ozet}"
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   LineBreakMode="WordWrap"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Sezonlar ve Bölümler -->
+                    <Border Style="{StaticResource ModernCard}"
+                            IsVisible="{Binding Dizi.Sezonlar.Count}">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="📚 Sezonlar ve Bölümler"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <CollectionView ItemsSource="{Binding Dizi.Sezonlar}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="viewModels:SezonItemViewModel">
+                                        <VerticalStackLayout Spacing="5"
+                                                             Margin="0,0,0,15">
+                                            <!-- Sezon Başlığı (Tıklanabilir Alan) -->
+                                            <Border Padding="10"
+                                                    BackgroundColor="{StaticResource Secondary}"
+                                                    StrokeShape="RoundRectangle 5">
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding ToggleExpandCommand}"/>
+                                                </Border.GestureRecognizers>
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <Label Grid.Column="0"
+                                                           FontSize="16"
+                                                           FontAttributes="Bold"
+                                                           TextColor="Black">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Sezon "/>
+                                                                <Span Text="{Binding SezonNumarasi}"/>
+                                                                <Span Text="{Binding Ad, StringFormat=' - {0}'}"/>
+                                                                <Span Text=" ("/>
+                                                                <Span Text="{Binding BolumSayisiText}"/>
+                                                                <Span Text=")"/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label Grid.Column="1"
+                                                           Text="{Binding IsExpanded, Converter={StaticResource InverseBoolToChevronConverter}, FallbackValue='▶'}"
+                                                           FontSize="16"
+                                                           VerticalOptions="Center"
+                                                           TextColor="Black"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- Bölümler (Genişletildiğinde Görünür) -->
+                                            <CollectionView ItemsSource="{Binding Bolumler}"
+                                                            Margin="15,5,0,0"
+                                                            IsVisible="{Binding IsExpanded}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate x:DataType="viewModels:BolumItemViewModel">
+                                                        <Border Padding="10"
+                                                                Margin="0,5"
+                                                                BackgroundColor="{StaticResource White}"
+                                                                StrokeShape="RoundRectangle 5">
+                                                            <VerticalStackLayout Spacing="5">
+                                                                <!-- Eski Label yapısı yorum satırına alınıyor veya siliniyor -->
+                                                                <!--
+                                                                <Label FontSize="14"
+                                                                       TextColor="Black">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span Text="Bölüm "/>
+                                                                            <Span Text="{Binding BolumNumarasi}"/>
+                                                                            <Span Text="{Binding Ad, StringFormat=': {0}'}"/>
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                                -->
+                                                                <!-- Yeni HorizontalStackLayout yapısı -->
+                                                                <HorizontalStackLayout Spacing="3">
+                                                                    <Label Text="Bölüm "
+                                                                           FontSize="14"
+                                                                           TextColor="Black"/>
+                                                                    <Label Text="{Binding BolumNumarasi}"
+                                                                           FontSize="14"
+                                                                           TextColor="Black"
+                                                                           FontAttributes="Bold"/>
+                                                                    <Label Text=":"
+                                                                           FontSize="14"
+                                                                           TextColor="Black"
+                                                                           Margin="0,0,3,0"/>
+                                                                    <Label Text="{Binding Ad}"
+                                                                           FontSize="14"
+                                                                           TextColor="Black"/>
+                                                                </HorizontalStackLayout>
+                                                                <Label Text="{Binding Ozet}"
+                                                                       FontSize="12"
+                                                                       TextColor="DarkSlateGray"
+                                                                       LineBreakMode="WordWrap"
+                                                                       MaxLines="3"/>
+                                                                <HorizontalStackLayout Spacing="10">
+                                                                    <Label Text="{Binding YayinTarihiText, StringFormat='📅 {0}'}"
+                                                                           FontSize="11"
+                                                                           TextColor="DarkSlateGray"/>
+                                                                    <Label Text="{Binding SureText, StringFormat='⏱️ {0}'}"
+                                                                           FontSize="11"
+                                                                           TextColor="DarkSlateGray"/>
+                                                                </HorizontalStackLayout>
+                                                            </VerticalStackLayout>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Puanlama Sistemi -->
+                    <Border Style="{StaticResource ModernCard}">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="★ Puanlama"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="Dizi Puanı:"
+                                       FontSize="16"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       VerticalOptions="Center"/>
+                                <Label Text="{Binding OrtalamaPuanText}"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10"
+                                                   IsVisible="{Binding KullaniciGirisYapti}">
+                                <Label Text="{Binding KullaniciPuaniText}"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Secondary}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Puan Verin:"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       IsVisible="{Binding KullaniciGirisYapti}"/>
+                                <HorizontalStackLayout Spacing="8"
+                                                       HorizontalOptions="Center"
+                                                       IsVisible="{Binding KullaniciGirisYapti}">
+                                    <Button Text="★"
+                                            CommandParameter="1"
+                                            Command="{Binding PuanVerCommand}"
+                                            Style="{StaticResource StarButton}"/>
+                                    <Button Text="★"
+                                            CommandParameter="2"
+                                            Command="{Binding PuanVerCommand}"
+                                            Style="{StaticResource StarButton}"/>
+                                    <Button Text="★"
+                                            CommandParameter="3"
+                                            Command="{Binding PuanVerCommand}"
+                                            Style="{StaticResource StarButton}"/>
+                                    <Button Text="★"
+                                            CommandParameter="4"
+                                            Command="{Binding PuanVerCommand}"
+                                            Style="{StaticResource StarButton}"/>
+                                    <Button Text="★"
+                                            CommandParameter="5"
+                                            Command="{Binding PuanVerCommand}"
+                                            Style="{StaticResource StarButton}"/>
+                                </HorizontalStackLayout>
+                                <VerticalStackLayout Spacing="10"
+                                                     IsVisible="{Binding KullaniciGirisYapmadi}">
+                                    <Label Text="Puan vermek için giriş yapmalısınız."
+                                           FontSize="14"
+                                           TextColor="{StaticResource TextSecondary}"
+                                           HorizontalOptions="Center"/>
+                                    <Button Text="Giriş Yap"
+                                            Command="{Binding GirisYapCommand}"
+                                            Style="{StaticResource PrimaryButton}"
+                                            HorizontalOptions="Center"
+                                            WidthRequest="120"/>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Listeye Ekle -->
+                    <Border Style="{StaticResource ModernCard}">
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="📝 Listem"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+
+                            <!-- Giriş Yapmış Kullanıcı -->
+                            <VerticalStackLayout Spacing="10"
+                                                 IsVisible="{Binding KullaniciGirisYapti}">
+                                <Button Text="+ Listeye Ekle"
+                                        Command="{Binding ListeyeEkleCommand}"
+                                        Style="{StaticResource SecondaryButton}"
+                                        HorizontalOptions="Fill"/>
+                            </VerticalStackLayout>
+
+                            <!-- Giriş Yapmamış Kullanıcı -->
+                            <VerticalStackLayout Spacing="10"
+                                                 IsVisible="{Binding KullaniciGirisYapmadi}">
+                                <Label Text="Dizi listelerinize eklemek için giriş yapmalısınız."
+                                       FontSize="14"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"/>
+                                <Button Text="Giriş Yap"
+                                        Command="{Binding GirisYapCommand}"
+                                        Style="{StaticResource PrimaryButton}"
+                                        HorizontalOptions="Center"
+                                        WidthRequest="120"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Geri Butonu -->
+                    <Button Text="← Geri Dön"
+                            Command="{Binding GeriGitCommand}"
+                            Style="{StaticResource SecondaryButton}"
+                            HorizontalOptions="Center"
+                            WidthRequest="150"/>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

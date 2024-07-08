@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.AramaSayfasi"
+             xmlns:viewModels="clr-namespace:DiziFilmTanitim.MAUI.ViewModels"
+             xmlns:models="clr-namespace:DiziFilmTanitim.MAUI.Models"
+             x:DataType="viewModels:AramaViewModel"
+             Title="Arama"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+        <!-- Background Pattern -->
+        <Rectangle Fill="{StaticResource PrimaryGradient}"
+                   Opacity="0.05"/>
+
+        <ScrollView Padding="20">
+            <VerticalStackLayout Spacing="25">
+
+                <!-- Arama Header -->
+                <VerticalStackLayout Spacing="15"
+                                     Margin="0,10,0,0">
+
+                    <!-- Search Icon -->
+                    <Border Background="{StaticResource PrimaryGradient}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 25"
+                            WidthRequest="60"
+                            HeightRequest="60"
+                            HorizontalOptions="Center">
+                        <Label Text="🔍"
+                               FontSize="30"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Text="Film ve Dizi Arama"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <!-- Arama Formu -->
+                <Border Style="{StaticResource ModernCard}">
+                    <VerticalStackLayout Spacing="20">
+
+                        <!-- Arama Metni -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Ne aramak istiyorsunuz?"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+
+                            <Border Style="{StaticResource ModernEntry}">
+                                <Entry Text="{Binding AramaMetni}"
+                                       Placeholder="Film veya dizi adı girin..."
+                                       Style="{StaticResource ModernEntryText}"
+                                       ReturnType="Search"
+                                       ReturnCommand="{Binding AramaYapCommand}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Arama Filtreleri -->
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Arama Kapsamı"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}"/>
+
+                            <HorizontalStackLayout Spacing="30">
+                                <HorizontalStackLayout Spacing="8">
+                                    <CheckBox IsChecked="{Binding FilmlerSecili}"
+                                              Color="{StaticResource Primary}"/>
+                                    <Label Text="Filmler"
+                                           FontSize="16"
+                                           TextColor="{StaticResource TextPrimary}"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout Spacing="8">
+                                    <CheckBox IsChecked="{Binding DizilerSecili}"
+                                              Color="{StaticResource Primary}"/>
+                                    <Label Text="Diziler"
+                                           FontSize="16"
+                                           TextColor="{StaticResource TextPrimary}"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- İster 15: Picker Filtreleri -->
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="Gelişmiş Filtreler"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}"/>
+
+                            <!-- Tür Seçimi Picker -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Tür"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextSecondary}"/>
+                                <Border Style="{StaticResource ModernEntry}">
+                                    <Picker ItemsSource="{Binding Turler}"
+                                            ItemDisplayBinding="{Binding Ad}"
+                                            SelectedItem="{Binding SeciliTur}"
+                                            Title="Tür seçin"
+                                            FontSize="16"
+                                            TextColor="{StaticResource TextPrimary}"
+                                            BackgroundColor="Transparent"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Yapım Yılı Picker -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Yapım Yılı"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextSecondary}"/>
+                                <Border Style="{StaticResource ModernEntry}">
+                                    <Picker ItemsSource="{Binding YapimYillari}"
+                                            SelectedItem="{Binding SeciliYapimYili}"
+                                            Title="Yıl seçin"
+                                            FontSize="16"
+                                            TextColor="{StaticResource TextPrimary}"
+                                            BackgroundColor="Transparent"/>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- İster 17: Modern Sıralama Seçenekleri -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Sıralama"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextSecondary}"/>
+
+                                <Grid RowDefinitions="Auto,Auto"
+                                      ColumnDefinitions="*,*"
+                                      ColumnSpacing="8"
+                                      RowSpacing="8">
+
+                                    <!-- Ad (A-Z) -->
+                                    <Frame Grid.Row="0"
+                                            Grid.Column="0"
+                                           BackgroundColor="{StaticResource Background}"
+                                           BorderColor="{StaticResource Primary}"
+                                           HasShadow="False"
+                                           Padding="12,8"
+                                           CornerRadius="12">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Ellipse Fill="{StaticResource Primary}"
+                                                     Stroke="{StaticResource Primary}"
+                                                     StrokeThickness="2"
+                                                     WidthRequest="14"
+                                                     HeightRequest="14"
+                                                     IsVisible="{Binding SiralamaAdAZ}"
+                                                     VerticalOptions="Center"/>
+                                            <Ellipse Fill="Transparent"
+                                                     Stroke="{StaticResource TextSecondary}"
+                                                     StrokeThickness="2"
+                                                     WidthRequest="14"
+                                                     HeightRequest="14"
+                                                     IsVisible="{Binding SiralamaAdAZ, Converter={StaticResource InverseBoolConverter}}"
+                                                     VerticalOptions="Center"/>
+                                            <Label Text="Ad (A-Z)"
+                                                   FontSize="13"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SiralamaSecCommand}"
+                                                                  CommandParameter="AdAZ"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+
+                                    <!-- Ad (Z-A) -->
+                                    <Frame Grid.Row="0"
+                                            Grid.Column="1"
+                                           BackgroundColor="{StaticResource Background}"
+                                           BorderColor="{StaticResource Primary}"
+                                           HasShadow="False"
+                                           Padding="12,8"
+                                           CornerRadius="12">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Ellipse Fill="{StaticResource Primary}"
+                                                     Stroke="{StaticResource Primary}"
+                                                     StrokeThickness="2"
+                                                     WidthRequest="14"
+                                                     HeightRequest="14"
+                                                     IsVisible="{Binding SiralamaAdZA}"
+                                                     VerticalOptions="Center"/>
+                                            <Ellipse Fill="Transparent"
+                                                     Stroke="{StaticResource TextSecondary}"
+                                                     StrokeThickness="2"
+                                                     WidthRequest="14"
+                                                     HeightRequest="14"
+                                                     IsVisible="{Binding SiralamaAdZA, Converter={StaticResource InverseBoolConverter}}"
+                                                     VerticalOptions="Center"/>
+                                            <Label Text="Ad (Z-A)"
+                                                   FontSize="13"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SiralamaSecCommand}"
+                                                                  CommandParameter="AdZA"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+
+                                    <!-- Yıl (Yeni-Eski) -->
+                                    <Frame Grid.Row="1"
+                                            Grid.Column="0"
+                                           BackgroundColor="{StaticResource Background}"
+                                           BorderColor="{StaticResource Primary}"
+                                           HasShadow="False"
+                                           Padding="12,8"
+                                           CornerRadius="12">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Ellipse Fill="{StaticResource Primary}"
+                                                     Stroke="{StaticResource Primary}"
+                                                     StrokeThickness="2"
+                                                     WidthRequest="14"
+                                                     HeightRequest="14"
+                                                     IsVisible="{Binding SiralamaYilYeni}"
+                                                     VerticalOptions="Center"/>
+                                            <Ellipse Fill="Transparent"
+                                                     Stroke="{StaticResource TextSecondary}"
+                                                     StrokeThickness="2"
+                                                     WidthRequest="14"
+                                                     HeightRequest="14"
+                                                     IsVisible="{Binding SiralamaYilYeni, Converter={StaticResource InverseBoolConverter}}"
+                                                     VerticalOptions="Center"/>
+                                            <Label Text="Yıl (Yeni)"
+                                                   FontSize="13"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SiralamaSecCommand}"
+                                                                  CommandParameter="YilYeni"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+
+                                    <!-- Yıl (Eski-Yeni) -->
+                                    <Frame Grid.Row="1"
+                                            Grid.Column="1"
+                                           BackgroundColor="{StaticResource Background}"
+                                           BorderColor="{StaticResource Primary}"
+                                           HasShadow="False"
+                                           Padding="12,8"
+                                           CornerRadius="12">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Ellipse Fill="{StaticResource Primary}"
+                                                     Stroke="{StaticResource Primary}"
+                                                     StrokeThickness="2"
+                                                     WidthRequest="14"
+                                                     HeightRequest="14"
+                                                     IsVisible="{Binding SiralamaYilEski}"
+                                                     VerticalOptions="Center"/>
+                                            <Ellipse Fill="Transparent"
+                                                     Stroke="{StaticResource TextSecondary}"
+                                                     StrokeThickness="2"
+                                                     WidthRequest="14"
+                                                     HeightRequest="14"
+                                                     IsVisible="{Binding SiralamaYilEski, Converter={StaticResource InverseBoolConverter}}"
+                                                     VerticalOptions="Center"/>
+                                            <Label Text="Yıl (Eski)"
+                                                   FontSize="13"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource TextPrimary}"
+                                                   VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SiralamaSecCommand}"
+                                                                  CommandParameter="YilEski"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- Arama Butonu -->
+                        <Button Text="🔍 Ara"
+                                Command="{Binding AramaYapCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                IsEnabled="{Binding IsNotBusy}"/>
+
+                        <!-- Loading -->
+                        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                           IsRunning="{Binding IsBusy}"
+                                           Color="{StaticResource Primary}"
+                                           WidthRequest="40"
+                                           HeightRequest="40"/>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Arama Sonuçları -->
+                <VerticalStackLayout Spacing="20"
+                                     IsVisible="{Binding AramaYapildi}">
+
+                    <!-- Sonuç Bulunamadı Mesajı -->
+                    <Border Style="{StaticResource ModernCard}"
+                            IsVisible="{Binding SonucBulunamadi}">
+                        <VerticalStackLayout Spacing="15"
+                                             HorizontalOptions="Center">
+                            <Label Text="😔"
+                                   FontSize="48"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Sonuç Bulunamadı"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Arama kriterlerinizi değiştirip tekrar deneyin."
+                                   FontSize="14"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Film Sonuçları -->
+                    <VerticalStackLayout Spacing="15"
+                                         IsVisible="{Binding FilmlerVarMi}">
+                        <Label Text="🎬 Filmler"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"/>
+
+                        <CollectionView ItemsSource="{Binding Filmler}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:FilmListItemResponse">
+                                    <Border Style="{StaticResource ModernCard}"
+                                            Margin="0,5">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:AramaViewModel}}, Path=FilmDetayinaGitCommand}"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>
+
+                                        <Grid ColumnDefinitions="80,*,Auto"
+                                              ColumnSpacing="15"
+                                              Padding="10">
+
+                                            <!-- Film Afişi -->
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="{StaticResource PrimaryLight}"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 8"
+                                                    WidthRequest="70"
+                                                    HeightRequest="100">
+                                                <Image Aspect="AspectFill"
+                                                       Source="{Binding AfisUrl}"/>
+                                            </Border>
+
+                                            <!-- Film Bilgileri -->
+                                            <VerticalStackLayout Grid.Column="1"
+                                                                 Spacing="5"
+                                                                 VerticalOptions="Center">
+                                                <Label Text="{Binding Ad}"
+                                                       FontSize="18"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource Primary}"
+                                                       LineBreakMode="WordWrap"/>
+
+                                                <HorizontalStackLayout Spacing="10">
+                                                    <Label Text="{Binding YapimYiliText, StringFormat='📅 {0}'}"
+                                                           FontSize="14"
+                                                           TextColor="{StaticResource TextSecondary}"/>
+                                                    <Label Text="{Binding SureText, StringFormat='⏱️ {0}'}"
+                                                           FontSize="14"
+                                                           TextColor="{StaticResource TextSecondary}"/>
+                                                </HorizontalStackLayout>
+
+                                                <Label Text="{Binding YonetmenAdi, StringFormat='🎭 Yön: {0}'}"
+                                                       FontSize="12"
+                                                       TextColor="{StaticResource TextHint}"
+                                                       IsVisible="{Binding YonetmenAdi, Converter={StaticResource StringNullOrEmptyBoolConverter}, ConverterParameter='inverse'}"/>
+                                            </VerticalStackLayout>
+
+                                            <!-- İlerle İkonu -->
+                                            <Label Grid.Column="2"
+                                                   Text="▶"
+                                                   FontSize="20"
+                                                   TextColor="{StaticResource Primary}"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+
+                    <!-- Dizi Sonuçları -->
+                    <VerticalStackLayout Spacing="15"
+                                         IsVisible="{Binding DizilerVarMi}">
+                        <Label Text="📺 Diziler"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"/>
+
+                        <CollectionView ItemsSource="{Binding Diziler}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:DiziListItemResponse">
+                                    <Border Style="{StaticResource ModernCard}"
+                                            Margin="0,5">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:AramaViewModel}}, Path=DiziDetayinaGitCommand}"
+                                                                  CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>
+
+                                        <Grid ColumnDefinitions="80,*,Auto"
+                                              ColumnSpacing="15"
+                                              Padding="10">
+
+                                            <!-- Dizi Afişi -->
+                                            <Border Grid.Column="0"
+                                                    BackgroundColor="{StaticResource PrimaryLight}"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 8"
+                                                    WidthRequest="70"
+                                                    HeightRequest="100">
+                                                <Image Aspect="AspectFill"
+                                                       Source="{Binding AfisUrl}"/>
+                                            </Border>
+
+                                            <!-- Dizi Bilgileri -->
+                                            <VerticalStackLayout Grid.Column="1"
+                                                                 Spacing="5"
+                                                                 VerticalOptions="Center">
+                                                <Label Text="{Binding Ad}"
+                                                       FontSize="18"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource Primary}"
+                                                       LineBreakMode="WordWrap"/>
+
+                                                <HorizontalStackLayout Spacing="10">
+                                                    <Label Text="{Binding YapimYiliText, StringFormat='📅 {0}'}"
+                                                           FontSize="14"
+                                                           TextColor="{StaticResource TextSecondary}"/>
+                                                    <Label Text="{Binding DurumText}"
+                                                           FontSize="14"
+                                                           TextColor="{StaticResource TextSecondary}"/>
+                                                </HorizontalStackLayout>
+
+                                                <Label Text="{Binding YonetmenAdi, StringFormat='🎭 Yön: {0}'}"
+                                                       FontSize="12"
+                                                       TextColor="{StaticResource TextHint}"
+                                                       IsVisible="{Binding YonetmenAdi, Converter={StaticResource StringNullOrEmptyBoolConverter}, ConverterParameter='inverse'}"/>
+                                            </VerticalStackLayout>
+
+                                            <!-- İlerle İkonu -->
+                                            <Label Grid.Column="2"
+                                                   Text="▶"
+                                                   FontSize="20"
+                                                   TextColor="{StaticResource Primary}"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

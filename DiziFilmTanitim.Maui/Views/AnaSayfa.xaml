@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.AnaSayfa"
+             BackgroundColor="{StaticResource Background}">
+
+       <Grid>
+              <!-- Background Gradyan -->
+              <Rectangle Fill="{StaticResource PrimaryGradient}"
+                         Opacity="0.05"/>
+
+              <ScrollView Padding="20">
+                     <VerticalStackLayout Spacing="25">
+
+                            <!-- Logo ve Başlık -->
+                            <HorizontalStackLayout Spacing="10"
+                                          Padding="5,0">
+                                   <!-- Sadece Logo Turuncu -->
+                                   <Border Background="{StaticResource PrimaryGradient}"
+                                           StrokeThickness="0"
+                                           StrokeShape="RoundRectangle 15"
+                                           WidthRequest="30"
+                                           HeightRequest="30">
+                                          <Label Text="🎬"
+                                                 FontSize="14"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"
+                                                 TextColor="White"/>
+                                   </Border>
+
+                                   <!-- Başlık ve Açıklama -->
+                                   <VerticalStackLayout Spacing="1"
+                                                 VerticalOptions="Center">
+                                          <Label Text="Dizi Film Takip"
+                                                 FontSize="16"
+                                                 FontAttributes="Bold"
+                                                 TextColor="{StaticResource TextPrimary}"/>
+
+                                          <Label Text="En sevdiğin filmleri ve dizileri keşfet"
+                                                 FontSize="11"
+                                                 TextColor="{StaticResource TextSecondary}"/>
+                                   </VerticalStackLayout>
+                            </HorizontalStackLayout>
+
+
+
+                            <!-- Film ve Dizi Bölümü Yan Yana -->
+                            <Grid ColumnDefinitions="*,*"
+                                  ColumnSpacing="15"
+                                  RowDefinitions="Auto,*,Auto">
+
+                                   <!-- Film Başlığı -->
+                                   <Grid Grid.Column="0"
+                                         Grid.Row="0"
+                                         ColumnDefinitions="*,Auto">
+                                          <Label Grid.Column="0"
+                                                 Text="🎬 Son Filmler"
+                                                 FontSize="18"
+                                                 FontAttributes="Bold"
+                                                 TextColor="{StaticResource TextPrimary}"
+                                                 VerticalOptions="Center"/>
+
+                                          <Button Grid.Column="1"
+                                                  Text="Tümü >"
+                                                  FontSize="12"
+                                                  TextColor="{StaticResource Primary}"
+                                                  BackgroundColor="Transparent"
+                                                  Command="{Binding TumFilmlereGitCommand}"/>
+                                   </Grid>
+
+                                   <!-- Dizi Başlığı -->
+                                   <Grid Grid.Column="1"
+                                         Grid.Row="0"
+                                         ColumnDefinitions="*,Auto">
+                                          <Label Grid.Column="0"
+                                                 Text="📺 Son Diziler"
+                                                 FontSize="18"
+                                                 FontAttributes="Bold"
+                                                 TextColor="{StaticResource TextPrimary}"
+                                                 VerticalOptions="Center"/>
+
+                                          <Button Grid.Column="1"
+                                                  Text="Tümü >"
+                                                  FontSize="12"
+                                                  TextColor="{StaticResource Primary}"
+                                                  BackgroundColor="Transparent"
+                                                  Command="{Binding TumDizilereGitCommand}"/>
+                                   </Grid>
+
+                                   <!-- Film Kartları -->
+                                   <CollectionView Grid.Column="0"
+                                                   Grid.Row="1"
+                                                   ItemsSource="{Binding Filmler}"
+                                                   IsVisible="{Binding FilmlerVarMi}"
+                                                   HeightRequest="260">
+                                          <CollectionView.ItemsLayout>
+                                                 <LinearItemsLayout Orientation="Vertical"
+                                                                    ItemSpacing="10"/>
+                                          </CollectionView.ItemsLayout>
+
+                                          <CollectionView.ItemTemplate>
+                                                 <DataTemplate>
+                                                        <Border Style="{StaticResource ModernCard}">
+                                                               <Border.GestureRecognizers>
+                                                                      <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.FilmDetayinaGitCommand}"
+                                                                                            CommandParameter="{Binding .}"/>
+                                                               </Border.GestureRecognizers>
+
+                                                               <Grid ColumnDefinitions="Auto,*"
+                                                                     ColumnSpacing="10">
+                                                                      <!-- Film Afişi -->
+                                                                      <Border Grid.Column="0"
+                                                                              StrokeThickness="0"
+                                                                              StrokeShape="RoundRectangle 8"
+                                                                              WidthRequest="80"
+                                                                              HeightRequest="120"
+                                                                              BackgroundColor="{StaticResource Surface}">
+                                                                             <Image Source="{Binding AfisUrl}"
+                                                                                    Aspect="AspectFill"/>
+                                                                      </Border>
+
+                                                                      <!-- Film Bilgileri -->
+                                                                      <VerticalStackLayout Grid.Column="1"
+                                                                                           Spacing="5"
+                                                                                           Padding="5"
+                                                                                           VerticalOptions="Center">
+                                                                             <Label Text="{Binding Ad}"
+                                                                                    FontSize="14"
+                                                                                    FontAttributes="Bold"
+                                                                                    TextColor="{StaticResource TextPrimary}"
+                                                                                    LineBreakMode="TailTruncation"
+                                                                                    MaxLines="2"/>
+
+                                                                             <Label Text="{Binding YapimYiliText}"
+                                                                                    FontSize="12"
+                                                                                    TextColor="{StaticResource TextSecondary}"/>
+                                                                      </VerticalStackLayout>
+                                                               </Grid>
+                                                        </Border>
+                                                 </DataTemplate>
+                                          </CollectionView.ItemTemplate>
+                                   </CollectionView>
+
+                                   <!-- Dizi Kartları -->
+                                   <CollectionView Grid.Column="1"
+                                                   Grid.Row="1"
+                                                   ItemsSource="{Binding Diziler}"
+                                                   IsVisible="{Binding DizilerVarMi}"
+                                                   HeightRequest="260">
+                                          <CollectionView.ItemsLayout>
+                                                 <LinearItemsLayout Orientation="Vertical"
+                                                                    ItemSpacing="10"/>
+                                          </CollectionView.ItemsLayout>
+
+                                          <CollectionView.ItemTemplate>
+                                                 <DataTemplate>
+                                                        <Border Style="{StaticResource ModernCard}">
+                                                               <Border.GestureRecognizers>
+                                                                      <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DiziDetayinaGitCommand}"
+                                                                                            CommandParameter="{Binding .}"/>
+                                                               </Border.GestureRecognizers>
+
+                                                               <Grid ColumnDefinitions="Auto,*"
+                                                                     ColumnSpacing="10">
+                                                                      <!-- Dizi Afişi -->
+                                                                      <Border Grid.Column="0"
+                                                                              StrokeThickness="0"
+                                                                              StrokeShape="RoundRectangle 8"
+                                                                              WidthRequest="80"
+                                                                              HeightRequest="120"
+                                                                              BackgroundColor="{StaticResource Surface}">
+                                                                             <Image Source="{Binding AfisUrl}"
+                                                                                    Aspect="AspectFill"/>
+                                                                      </Border>
+
+                                                                      <!-- Dizi Bilgileri -->
+                                                                      <VerticalStackLayout Grid.Column="1"
+                                                                                           Spacing="5"
+                                                                                           Padding="5"
+                                                                                           VerticalOptions="Center">
+                                                                             <Label Text="{Binding Ad}"
+                                                                                    FontSize="14"
+                                                                                    FontAttributes="Bold"
+                                                                                    TextColor="{StaticResource TextPrimary}"
+                                                                                    LineBreakMode="TailTruncation"
+                                                                                    MaxLines="2"/>
+
+                                                                             <Grid ColumnDefinitions="*,Auto">
+                                                                                    <Label Grid.Column="0"
+                                                                                           Text="{Binding YapimYiliText}"
+                                                                                           FontSize="12"
+                                                                                           TextColor="{StaticResource TextSecondary}"/>
+
+                                                                                    <Label Grid.Column="1"
+                                                                                           Text="{Binding DurumText}"
+                                                                                           FontSize="10"
+                                                                                           TextColor="{StaticResource Primary}"
+                                                                                           FontAttributes="Bold"/>
+                                                                             </Grid>
+                                                                      </VerticalStackLayout>
+                                                               </Grid>
+                                                        </Border>
+                                                 </DataTemplate>
+                                          </CollectionView.ItemTemplate>
+                                   </CollectionView>
+
+                                   <!-- Film Yok Mesajı -->
+                                   <Label Grid.Column="0"
+                                          Grid.Row="2"
+                                          Text="Henüz film eklenmemiş"
+                                          FontSize="14"
+                                          TextColor="{StaticResource TextSecondary}"
+                                          HorizontalOptions="Center"
+                                          IsVisible="{Binding FilmlerVarMi, Converter={StaticResource InverseBoolConverter}}"/>
+
+                                   <!-- Dizi Yok Mesajı -->
+                                   <Label Grid.Column="1"
+                                          Grid.Row="2"
+                                          Text="Henüz dizi eklenmemiş"
+                                          FontSize="14"
+                                          TextColor="{StaticResource TextSecondary}"
+                                          HorizontalOptions="Center"
+                                          IsVisible="{Binding DizilerVarMi, Converter={StaticResource InverseBoolConverter}}"/>
+                            </Grid>
+
+                            <!-- Özellikler -->
+                            <Border Style="{StaticResource ModernCard}">
+                                   <VerticalStackLayout Spacing="15">
+                                          <Label Text="✨ Özellikler"
+                                                 FontSize="20"
+                                                 FontAttributes="Bold"
+                                                 TextColor="{StaticResource TextPrimary}"/>
+
+                                          <VerticalStackLayout Spacing="12">
+                                                 <Label Text="🍿 Film &amp; Dizi Keşfet"
+                                                        FontSize="16"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                 <Label Text="⭐ Puanlama Sistemi"
+                                                        FontSize="16"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                 <Label Text="📝 Kişisel Listeler"
+                                                        FontSize="16"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                                 <Label Text="🔍 Gelişmiş Arama"
+                                                        FontSize="16"
+                                                        TextColor="{StaticResource TextPrimary}"/>
+                                          </VerticalStackLayout>
+                                   </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Loading -->
+                            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                               IsRunning="{Binding IsBusy}"
+                                               Color="{StaticResource Primary}"/>
+
+                     </VerticalStackLayout>
+              </ScrollView>
+       </Grid>
+
+</ContentPage>

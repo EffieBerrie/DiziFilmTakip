@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.DizilerSayfasi"
+             xmlns:viewModels="clr-namespace:DiziFilmTanitim.MAUI.ViewModels"
+             x:DataType="viewModels:DizilerViewModel"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+        <Rectangle Fill="{StaticResource PrimaryGradient}"
+                   Opacity="0.05"/>
+
+        <Grid RowDefinitions="Auto,*"
+              Padding="20">
+
+            <VerticalStackLayout Grid.Row="0"
+                                 Spacing="15"
+                                 Margin="0,20,0,20">
+                <Label Text="📺 Diziler"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Primary}"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <Grid Grid.Row="1">
+
+                <VerticalStackLayout IsVisible="{Binding IsBusy}"
+                                     VerticalOptions="Center"
+                                     Spacing="20">
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"
+                                       WidthRequest="40"
+                                       HeightRequest="40"/>
+                    <Label Text="Diziler yükleniyor..."
+                           FontSize="16"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout IsVisible="{Binding VeriYok}"
+                                     VerticalOptions="Center"
+                                     Spacing="20">
+                    <Border Background="{StaticResource PrimaryGradient}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 30"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            HorizontalOptions="Center">
+                        <Label Text="🎬"
+                               FontSize="35"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Label Text="Henüz dizi eklenmemiş"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource TextPrimary}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Dizi veritabanı boş görünüyor"
+                           FontSize="14"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <CollectionView ItemsSource="{Binding Diziler}"
+                                IsVisible="{Binding VeriYuklendi}"
+                                SelectionMode="None"
+                                Margin="0,0,0,20">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                                           ItemSpacing="15"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:DiziItemViewModel">
+                            <Border Style="{StaticResource ModernCard}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DiziSecCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="100,*"
+                                      ColumnSpacing="15"
+                                      Padding="5">
+
+                                    <Border Grid.Column="0"
+                                            BackgroundColor="{StaticResource PrimaryLight}"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 8"
+                                            WidthRequest="90"
+                                            HeightRequest="130">
+                                        <Image Aspect="AspectFill"
+                                               Source="{Binding AfisUrl}"/>
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Column="1"
+                                                         Spacing="6"
+                                                         VerticalOptions="Center">
+
+                                        <Label Text="{Binding Ad}"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource TextPrimary}"
+                                               LineBreakMode="TailTruncation"/>
+
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Label Text="{Binding YapimYiliText}"
+                                                   FontSize="13"
+                                                   TextColor="{StaticResource Primary}"
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding Durum}"
+                                                   FontSize="13"
+                                                   TextColor="{StaticResource TextSecondary}"/>
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label Text="🎭 Yönetmen:"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource TextHint}"/>
+                                            <Label Text="{Binding YonetmenAdi}"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource TextPrimary}"
+                                                   LineBreakMode="TailTruncation"/>
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout Spacing="5">
+                                            <Label Text="🏷️ Türler:"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource TextHint}"/>
+                                            <Label Text="{Binding TurlerText}"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource TextSecondary}"
+                                                   LineBreakMode="TailTruncation"/>
+                                        </HorizontalStackLayout>
+
+                                        <Label Text="{Binding KisaOzet}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource TextHint}"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2"/>
+
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>
