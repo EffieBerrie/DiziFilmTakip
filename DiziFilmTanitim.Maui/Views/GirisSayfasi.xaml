@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.GirisSayfasi"
+             Title="Giriş Yap"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+        <!-- Background Pattern -->
+        <Rectangle Fill="{StaticResource PrimaryGradient}"
+                   Opacity="0.05"/>
+
+        <ScrollView>
+            <VerticalStackLayout Spacing="30"
+                                 Padding="30"
+                                 VerticalOptions="Center">
+
+                <!-- Hero Logo Section -->
+                <VerticalStackLayout Spacing="20"
+                                     Margin="0,20,0,20">
+
+                    <!-- Modern Logo Container -->
+                    <Border Background="{StaticResource PrimaryGradient}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 30"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            HorizontalOptions="Center">
+                        <Border BackgroundColor="White"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 25"
+                                WidthRequest="60"
+                                HeightRequest="60"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+                            <Label Text="🎬"
+                                   FontSize="35"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                    </Border>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Hoş Geldin!"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Hesabına giriş yap ve keşfetmeye başla"
+                               FontSize="16"
+                               TextColor="{StaticResource TextSecondary}"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Login Form Card -->
+                <Border Style="{StaticResource ModernCard}">
+                    <VerticalStackLayout Spacing="25">
+
+                        <!-- Kullanıcı Adı -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Kullanıcı Adı"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Border Style="{StaticResource ModernEntry}">
+                                <Entry x:Name="KullaniciAdiEntry"
+                                       Text="{Binding KullaniciAdi}"
+                                       Placeholder="Kullanıcı adınızı girin"
+                                       Style="{StaticResource ModernEntryText}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Şifre -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Şifre"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Border Style="{StaticResource ModernEntry}">
+                                <Entry x:Name="SifreEntry"
+                                       Text="{Binding Sifre}"
+                                       Placeholder="Şifrenizi girin"
+                                       IsPassword="True"
+                                       Style="{StaticResource ModernEntryText}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Hata Mesajı -->
+                        <Border IsVisible="{Binding HataVarMi}"
+                                Style="{StaticResource ErrorMessageContainer}">
+                            <Label Text="{Binding HataMesaji}"
+                                   Style="{StaticResource ErrorMessageText}"/>
+                        </Border>
+
+                        <!-- Giriş Butonu -->
+                        <Button Text="Giriş Yap"
+                                Command="{Binding GirisCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                IsEnabled="{Binding IsNotBusy}"/>
+
+                        <!-- Loading -->
+                        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                           IsRunning="{Binding IsBusy}"
+                                           Color="{StaticResource Primary}"
+                                           WidthRequest="40"
+                                           HeightRequest="40"/>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Alt Bağlantılar -->
+                <VerticalStackLayout Spacing="15">
+                    <Button Text="Hesabın yok mu? Kayıt Ol"
+                            Command="{Binding KayitSayfasinaGitCommand}"
+                            Style="{StaticResource SecondaryButton}"/>
+
+                    <Button Text="Misafir olarak devam et"
+                            Command="{Binding MisafirGirisCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource TextSecondary}"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

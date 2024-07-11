@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.KayitSayfasi"
+             Title="Kayıt Ol"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+        <!-- Background Pattern -->
+        <Rectangle Fill="{StaticResource PrimaryGradient}"
+                   Opacity="0.05"/>
+
+        <ScrollView>
+            <VerticalStackLayout Spacing="25"
+                                 Padding="30">
+
+                <!-- Hero Section -->
+                <VerticalStackLayout Spacing="15"
+                                     Margin="0,20,0,20">
+
+                    <!-- Modern Logo -->
+                    <Border Background="{StaticResource PrimaryGradient}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 30"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            HorizontalOptions="Center">
+                        <Label Text="📝"
+                               FontSize="35"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Yeni Hesap"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Hemen kayıt ol ve keşfetmeye başla"
+                               FontSize="16"
+                               TextColor="{StaticResource TextSecondary}"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Kayıt Form Card -->
+                <Border Style="{StaticResource ModernCard}">
+                    <VerticalStackLayout Spacing="20">
+
+                        <!-- Kullanıcı Adı -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Kullanıcı Adı"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Border Style="{StaticResource ModernEntry}">
+                                <Entry x:Name="KullaniciAdiEntry"
+                                       Text="{Binding KullaniciAdi}"
+                                       Placeholder="En az 3 karakter"
+                                       Style="{StaticResource ModernEntryText}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- E-posta -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="E-posta"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Border Style="{StaticResource ModernEntry}">
+                                <Entry x:Name="EpostaEntry"
+                                       Text="{Binding Eposta}"
+                                       Placeholder="ornek@email.com"
+                                       Keyboard="Email"
+                                       Style="{StaticResource ModernEntryText}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Şifre -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Şifre"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Border Style="{StaticResource ModernEntry}">
+                                <Entry x:Name="SifreEntry"
+                                       Text="{Binding Sifre}"
+                                       Placeholder="En az 6 karakter"
+                                       IsPassword="True"
+                                       Style="{StaticResource ModernEntryText}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Şifre Tekrar -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Şifre Tekrar"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Border Style="{StaticResource ModernEntry}">
+                                <Entry x:Name="SifreTekrarEntry"
+                                       Text="{Binding SifreTekrar}"
+                                       Placeholder="Şifrenizi tekrar girin"
+                                       IsPassword="True"
+                                       Style="{StaticResource ModernEntryText}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Mesajlar -->
+                        <VerticalStackLayout Spacing="10">
+                            <!-- Hata -->
+                            <Border IsVisible="{Binding HataVarMi}"
+                                    Style="{StaticResource ErrorMessageContainer}">
+                                <Label Text="{Binding HataMesaji}"
+                                       Style="{StaticResource ErrorMessageText}"/>
+                            </Border>
+
+                            <!-- Başarı -->
+                            <Border IsVisible="{Binding BasariVarMi}"
+                                    Style="{StaticResource SuccessMessageContainer}">
+                                <Label Text="{Binding BasariMesaji}"
+                                       Style="{StaticResource SuccessMessageText}"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Kayıt Butonu -->
+                        <Button Text="Kayıt Ol"
+                                Command="{Binding KayitCommand}"
+                                Style="{StaticResource SuccessButton}"
+                                IsEnabled="{Binding IsNotBusy}"/>
+
+                        <!-- Loading -->
+                        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                           IsRunning="{Binding IsBusy}"
+                                           Color="{StaticResource Success}"
+                                           WidthRequest="40"
+                                           HeightRequest="40"/>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Alt Bağlantılar -->
+                <VerticalStackLayout Spacing="12">
+                    <Button Text="← Giriş sayfasına dön"
+                            Command="{Binding GirisSayfasinaGitCommand}"
+                            Style="{StaticResource SecondaryButton}"/>
+
+                    <Button Text="Misafir olarak devam et"
+                            Command="{Binding MisafirGirisCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource TextSecondary}"
+                            FontSize="14"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
