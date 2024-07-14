@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.ListelerSayfasi"
+             xmlns:viewModels="clr-namespace:DiziFilmTanitim.MAUI.ViewModels"
+             xmlns:models="clr-namespace:DiziFilmTanitim.MAUI.Models"
+             x:DataType="viewModels:ListelerViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+        <Rectangle Fill="{StaticResource PrimaryGradient}"
+                Opacity="0.05"/>
+
+        <Grid RowDefinitions="Auto,*"
+                Padding="20">
+
+            <!-- Header -->
+            <Label Grid.Row="0"
+                    Text="📝 Listelerim"
+                   IsVisible="{Binding IsLoggedIn}"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Primary}"
+                   HorizontalOptions="Center"
+                   Margin="0,20,0,20"/>
+
+            <!-- Content Area -->
+            <Grid Grid.Row="1">
+                <!-- Giriş Yapmamış Kullanıcı İçeriği -->
+                <VerticalStackLayout Spacing="20"
+                                     VerticalOptions="CenterAndExpand"
+                                     IsVisible="{Binding IsLoggedIn, Converter={StaticResource InverseBoolConverter}}">
+                    <Border Background="{StaticResource PrimaryGradient}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 30"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            HorizontalOptions="Center">
+                        <Label Text="📝"
+                               FontSize="35"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Label Text="Listelerinizi görüntülemek ve oluşturmak için lütfen giriş yapın."
+                           FontSize="16"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                    <Button Text="Giriş Yap / Kayıt Ol"
+                            Command="{Binding GirisYapCommand}"
+                            Style="{StaticResource PrimaryButton}"
+                            HorizontalOptions="Center"
+                            WidthRequest="200"/>
+                </VerticalStackLayout>
+
+                <!-- Giriş Yapmış Kullanıcı İçeriği -->
+                <VerticalStackLayout Spacing="15"
+                        IsVisible="{Binding IsLoggedIn}">
+                    <Button Text="✨ Yeni Liste Oluştur"
+                            Command="{Binding YeniListeOlusturCommand}"
+                            Style="{StaticResource PrimaryButton}"
+                            HorizontalOptions="Fill"/>
+
+                    <!-- Loading -->
+                    <VerticalStackLayout IsVisible="{Binding IsBusy}"
+                            VerticalOptions="Center"
+                            Spacing="20">
+                        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                Color="{StaticResource Primary}"
+                                WidthRequest="40"
+                                HeightRequest="40"/>
+                        <Label Text="Listeler yükleniyor..."
+                                FontSize="16"
+                                TextColor="{StaticResource TextSecondary}"
+                                HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- No Data (Giriş yapılmış ama liste yoksa) -->
+                    <VerticalStackLayout IsVisible="{Binding VeriYok}"
+                            VerticalOptions="Center"
+                            Spacing="20">
+                        <Label Text="Henüz bir liste oluşturmadınız."
+                               FontSize="16"
+                               TextColor="{StaticResource TextSecondary}"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- Kullanıcı Listeleri -->
+                    <CollectionView ItemsSource="{Binding KullaniciListeleri}"
+                                    IsVisible="{Binding VeriYok, Converter={StaticResource InverseBoolConverter}}"
+                                    SelectionMode="None"
+                                    Margin="0,10,0,0">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:KullaniciListesiResponseModel">
+                                <Border Style="{StaticResource ModernCard}"
+                                        Padding="15"
+                                        Margin="0,0,0,10">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ListelerViewModel}}, Path=ListeSecCommand}"
+                                                              CommandParameter="{Binding .}"/>
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="5">
+                                        <Label Text="{Binding ListeAdi}"
+                                               FontAttributes="Bold"
+                                               FontSize="18"
+                                               TextColor="{StaticResource Primary}"/>
+                                        <Label Text="{Binding Aciklama}"
+                                               FontSize="14"
+                                               TextColor="{StaticResource TextSecondary}"
+                                               MaxLines="2"
+                                               LineBreakMode="TailTruncation"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</ContentPage>

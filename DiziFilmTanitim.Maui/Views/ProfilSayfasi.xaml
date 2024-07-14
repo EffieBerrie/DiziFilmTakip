@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.ProfilSayfasi"
+             xmlns:viewModels="clr-namespace:DiziFilmTanitim.MAUI.ViewModels"
+             x:DataType="viewModels:ProfilViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+        <Rectangle Fill="{StaticResource PrimaryGradient}"
+                   Opacity="0.05"/>
+
+        <ScrollView Padding="20">
+            <VerticalStackLayout Spacing="25"
+                                 Padding="0,20">
+
+                <!-- Header -->
+                <Label Text="👤 Profilim"
+                       IsVisible="{Binding IsLoggedIn}"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Primary}"
+                       HorizontalOptions="Center"/>
+
+                <!-- Giriş Yapmış Kullanıcı İçeriği -->
+                <VerticalStackLayout Spacing="25"
+                        IsVisible="{Binding IsLoggedIn}">
+                    <!-- Kullanıcı Bilgileri Kartı -->
+                    <Border Style="{StaticResource ModernCard}">
+                        <VerticalStackLayout Spacing="15"
+                                             Padding="20">
+                            <Label Text="Kullanıcı Bilgileri"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Grid ColumnDefinitions="Auto,*"
+                                  RowSpacing="10">
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Text="Kullanıcı Adı:"
+                                       FontSize="16"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       VerticalOptions="Center"/>
+                                <Label Grid.Row="0"
+                                       Grid.Column="1"
+                                       Text="{Binding KullaniciAdi}"
+                                       FontSize="16"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       VerticalOptions="Center"
+                                       FontAttributes="Bold"/>
+
+                                <!-- TODO: E-posta göstermek için ViewModel ve API'den email alınmalı -->
+                                <!-- <Label Grid.Row="1" Grid.Column="0" Text="E-posta:" FontSize="16" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center"/> -->
+                                <!-- <Label Grid.Row="1" Grid.Column="1" Text="{Binding Email}" FontSize="16" TextColor="{StaticResource TextPrimary}" VerticalOptions="Center"/> -->
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Hesap İşlemleri Kartı -->
+                    <Border Style="{StaticResource ModernCard}">
+                        <VerticalStackLayout Spacing="15"
+                                             Padding="20">
+                            <Label Text="Hesap İşlemleri"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"/>
+
+                            <Button Text="Şifre Değiştir"
+                                    Command="{Binding SifreDegistirSayfasinaGitCommand}"
+                                    Style="{StaticResource SecondaryButton}"
+                                    HorizontalOptions="Fill"/>
+
+                            <Button Text="Çıkış Yap"
+                                    Command="{Binding CikisYapCommand}"
+                                    BackgroundColor="{StaticResource ErrorColor}"
+                                    TextColor="White"
+                                    Style="{StaticResource PrimaryButton}"
+                                    HorizontalOptions="Fill"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Giriş Yapmamış Kullanıcı İçeriği -->
+                <VerticalStackLayout Spacing="20"
+                        VerticalOptions="CenterAndExpand"
+                        IsVisible="{Binding IsLoggedIn, Converter={StaticResource InverseBoolConverter}}">
+                    <Border Background="{StaticResource PrimaryGradient}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 30"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            HorizontalOptions="Center">
+                        <Label Text="👤"
+                               FontSize="35"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Label Text="Profilinizi görüntülemek için lütfen giriş yapın."
+                           FontSize="16"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                    <Button Text="Giriş Yap / Kayıt Ol"
+                            Command="{Binding GirisYapCommand}"
+                            Style="{StaticResource PrimaryButton}"
+                            HorizontalOptions="Center"
+                            WidthRequest="200"/>
+                </VerticalStackLayout>
+
+                <!-- Aktivite Yükleniyor (Her iki durumda da görünebilir) -->
+                <VerticalStackLayout IsVisible="{Binding IsBusy}"
+                                     VerticalOptions="CenterAndExpand"
+                                     HorizontalOptions="CenterAndExpand"
+                                     Spacing="15"
+                                     Margin="0,30">
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                       Color="{StaticResource Primary}"/>
+                    <Label Text="İşlem yapılıyor..."
+                           TextColor="{StaticResource TextSecondary}"
+                           FontSize="14"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiziFilmTanitim.MAUI.Views.SifreDegistirSayfasi"
+             xmlns:viewModels="clr-namespace:DiziFilmTanitim.MAUI.ViewModels"
+             x:DataType="viewModels:SifreDegistirViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource Background}">
+
+       <Grid>
+              <Rectangle Fill="{StaticResource PrimaryGradient}"
+                         Opacity="0.05"/>
+
+              <ScrollView Padding="20">
+                     <VerticalStackLayout Spacing="20"
+                                          Padding="0,20"
+                                          VerticalOptions="Center">
+
+                            <Label Text="🔒 Şifre Değiştir"
+                                   FontSize="28"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"
+                                   HorizontalOptions="Center"/>
+
+                            <Border Style="{StaticResource ModernCard}">
+                                   <VerticalStackLayout Spacing="15"
+                                                        Padding="20">
+
+                                          <Label Text="Eski Şifreniz"
+                                                 TextColor="{StaticResource TextSecondary}"/>
+                                          <Entry Text="{Binding EskiSifre, Mode=TwoWay}"
+                                                 IsPassword="True"
+                                                 Placeholder="Eski şifrenizi girin"
+                                                 TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Black}}"
+                                                 PlaceholderColor="{StaticResource Gray500}"/>
+
+                                          <Label Text="Yeni Şifreniz"
+                                                 TextColor="{StaticResource TextSecondary}"
+                                                 Margin="0,10,0,0"/>
+                                          <Entry Text="{Binding YeniSifre, Mode=TwoWay}"
+                                                 IsPassword="True"
+                                                 Placeholder="Yeni şifrenizi girin (en az 6 karakter)"
+                                                 TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Black}}"
+                                                 PlaceholderColor="{StaticResource Gray500}"/>
+
+                                          <Label Text="Yeni Şifreniz (Tekrar)"
+                                                 TextColor="{StaticResource TextSecondary}"
+                                                 Margin="0,10,0,0"/>
+                                          <Entry Text="{Binding YeniSifreTekrar, Mode=TwoWay}"
+                                                 IsPassword="True"
+                                                 Placeholder="Yeni şifrenizi tekrar girin"
+                                                 TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Black}}"
+                                                 PlaceholderColor="{StaticResource Gray500}"/>
+
+                                          <!-- Hata Mesajı -->
+                                          <Border IsVisible="{Binding HataVarMi}"
+                                                  BackgroundColor="#FFEBEE"
+                                                  Stroke="#F44336"
+                                                  StrokeThickness="1"
+                                                  StrokeShape="RoundRectangle 8"
+                                                  Padding="12"
+                                                  Margin="0,5,0,0">
+                                                 <Label Text="{Binding HataMesaji}"
+                                                        TextColor="#F44336"
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"/>
+                                          </Border>
+
+                                          <!-- Başarı Mesajı -->
+                                          <Border IsVisible="{Binding BasariVarMi}"
+                                                  BackgroundColor="#E8F5E8"
+                                                  Stroke="#4CAF50"
+                                                  StrokeThickness="1"
+                                                  StrokeShape="RoundRectangle 8"
+                                                  Padding="12"
+                                                  Margin="0,5,0,0">
+                                                 <Label Text="{Binding BasariMesaji}"
+                                                        TextColor="#4CAF50"
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"/>
+                                          </Border>
+
+                                          <Button Text="Şifreyi Değiştir"
+                                                  Command="{Binding SifreDegistirCommand}"
+                                                  Style="{StaticResource PrimaryButton}"
+                                                  HorizontalOptions="Fill"
+                                                  Margin="0,15,0,0"/>
+                                   </VerticalStackLayout>
+                            </Border>
+
+                            <Button Text="← Geri Dön"
+                                    Command="{Binding GeriGitCommand}"
+                                    Style="{StaticResource SecondaryButton}"
+                                    HorizontalOptions="Center"
+                                    WidthRequest="150"
+                                    Margin="0,10,0,0"/>
+
+                            <!-- Aktivite Yükleniyor -->
+                            <VerticalStackLayout IsVisible="{Binding IsBusy}"
+                                                 Spacing="10"
+                                                 Margin="0,10">
+                                   <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                                      Color="{StaticResource Primary}"
+                                                      HorizontalOptions="Center"/>
+                                   <Label Text="İşlem yapılıyor..."
+                                          TextColor="{StaticResource TextSecondary}"
+                                          HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+
+                     </VerticalStackLayout>
+              </ScrollView>
+       </Grid>
+</ContentPage>
