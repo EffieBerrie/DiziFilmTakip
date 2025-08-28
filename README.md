@@ -1,10 +1,8 @@
-# DiziFilmTanitim - Programlama 2 Proje Ödevi
+# DiziFilmTanitim
 
-## 📚 Proje Açıklaması
+Programlama 2 dersi kapsamında geliştirilmiş film ve dizi tanıtım uygulaması. Kullanıcılar film/dizi listelerini görüntüleyebilir, kendi listelerini oluşturabilir ve içerikleri değerlendirebilir.
 
-Bu proje, **Programlama 2** dersi kapsamında geliştirilmiş bir film ve dizi tanıtım uygulamasıdır. Kullanıcılar film/dizi listelerini görüntüleyebilir, kendi listelerini oluşturabilir ve içerikleri değerlendirebilir.
-
-## 🏗️ Proje Yapısı
+## Proje Yapısı
 
 ```
 DiziFilmTanitim/
@@ -13,54 +11,76 @@ DiziFilmTanitim/
 └── DiziFilmTanitim.Maui/     # MAUI mobil uygulaması
 ```
 
-## 🎯 Programlama 2 Proje Gereksinimleri
+## Teknolojiler
 
-**Programlama 2 dersi proje ödevi isterleri:**
+- .NET 9
+- MAUI (Multi-platform App UI)
+- ASP.NET Core Minimal API
+- Entity Framework Core
+- SQL Server Express
+- MVVM Pattern
 
-1. **✅** Proje MAUI ile mi yapılmış? (Aksi halde proje kabul edilmez !!!)
-2. **✅** Minimal Api projesi oluşturulmuş mu?
-3. **✅** Entity Framework Code First yaklaşımı kullanılmış mı?
-4. **✅** Migrationlar eklenmiş mi?
-5. **✅** Veri tabanı bağlantısı yapılmış mı?
-6. **✅** Veri tabanından listeleme işlemi yapılmış mı? (Çeşitli kriterlere göre sorgulama yapılabiliyor mu?)
-7. **✅** Veri tabanına veri ekleme işlemi yapılmış mı?
-8. **✅** Veri tabanındaki veri üzerinde güncelleme işlemi yapılmış mı?
-9. **✅** Veri tabanındaki veri silme işlemi yapılmış mı?
-10. **❌** Ekleme ve güncelleme işlemlerinde hangi kullanıcı ne zaman ekledi ya da güncelledi verileri tutulmuş mu?
-11. **✅** Kullanıcı girişi yapılmış mı?
-12. **✅** Kullanıcı çıkışı yapılmış mı?
-13. **✅** Şifre değiştirme sayfası yapılmış mı?
-14. **✅** CollectionView kullanılmış mı?
-15. **✅** Picker kullanılmış mı?
-16. **✅** DatePicker veya TimePicker kullanılmış mı?
-17. **✅** Checkbox ya da RadioButton kullanılmış mı?
-18. **✅** Derste anlatılmayan MAUI kontrollerinden biri kullanılmış mı?
-19. **✅** Service Interface'leri kullanılmış mı?
-20. **✅** Service sınıfları oluşturulmuş mu?
-21. **✅** Proje genelinde OOP prensipleri uygulanmış mı?
-22. **✅** Kaydetme, güncelleme, kullanıcı girişi gibi sayfalardaki veriler doğrulanmış mı (Boş bırakılamaz, karakter sınırı vb.)?
-23. **✅** LINQ aktif olarak kullanılmış mı?
-24. **✅** Proje çalışıyor mu?
-25. **✅** Proje konusuna göre, olması gereken minimum işlemler yapılabiliyor mu?
-26. **✅** C# isimlendirme kurallarına uyulmuş mu?
+## Uygulama Görselleri
 
-## 🛠️ Teknolojiler
+<table>
+  <tr>
+    <td align="center">
+      <img src="screenshot/ana_sayfa.png" width="500" alt="Ana Sayfa">
+      <br>
+      <b>Ana Sayfa</b>
+      <br>
+      <em>Uygulamanın ana ekranı ve popüler içerikler</em>
+    </td>
+    <td align="center">
+      <img src="screenshot/fimler.png" width="500" alt="Filmler">
+      <br>
+      <b>Filmler</b>
+      <br>
+      <em>Film listesi ve kategorileri</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="screenshot/arama.png" width="500" alt="Arama">
+      <br>
+      <b>Arama</b>
+      <br>
+      <em>Film ve dizi arama özelliği</em>
+    </td>
+    <td align="center">
+      <img src="screenshot/profil.png" width="500" alt="Profil">
+      <br>
+      <b>Profil</b>
+      <br>
+      <em>Kullanıcı profili ve ayarlar</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="screenshot/giris_sayfasi.png" width="500" alt="Giriş Sayfası">
+      <br>
+      <b>Giriş Sayfası</b>
+      <br>
+      <em>Kullanıcı giriş ekranı</em>
+    </td>
+    <td align="center">
+      <img src="screenshot/kayit_sayfasi.png" width="500" alt="Kayıt Sayfası">
+      <br>
+      <b>Kayıt Sayfası</b>
+      <br>
+      <em>Yeni kullanıcı kaydı</em>
+    </td>
+  </tr>
+</table>
 
-- **.NET 9**
-- **MAUI (Multi-platform App UI)**
-- **ASP.NET Core Minimal API**
-- **Entity Framework Core**
-- **SQL Server Express**
-- **MVVM Pattern**
-
-## ⚡ Hızlı Başlangıç
+## Hızlı Başlangıç
 
 1. Projeyi klonlayın
 2. `dotnet restore` komutu ile paketleri yükleyin
 3. API projesini çalıştırın: `dotnet run --project DiziFilmTanitim.Api`
 4. MAUI uygulamasını çalıştırın: `dotnet run --project DiziFilmTanitim.Maui`
 
-## 📱 Uygulama Özellikleri
+## Özellikler
 
 - Film ve dizi listeleme
 - Detaylı arama ve filtreleme
@@ -69,4 +89,4 @@ DiziFilmTanitim/
 - Puanlama sistemi
 - Profil yönetimi
 
-*Bu proje Programlama 2 dersi kapsamında akademik amaçlarla geliştirilmiştir.*
+Bu proje Programlama 2 dersi kapsamında akademik amaçlarla geliştirilmiştir.
